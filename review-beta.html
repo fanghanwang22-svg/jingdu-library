@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>记忆训练 · 考研英语</title>
+<style>
+:root{--ink:#1f2328;--paper:#fbfaf7;--line:#e7e3da;--accent:#8a6a00;--muted:#6b7280;
+  --good:#2f7a43;--bad:#a33;--mid:#b07a00}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink)}
+.app{max-width:820px;margin:0 auto;padding:18px 16px 80px}
+header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+h1{font-size:20px;margin:0}
+.sub{font-size:12.5px;color:var(--muted)}
+nav{display:flex;gap:6px;margin:14px 0 18px;flex-wrap:wrap}
+nav button{font:inherit;font-size:13px;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;color:#39404a}
+nav button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px}
+.stat-line{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:10px}
+.stat-line b{color:var(--ink);font-size:15px}
+.word-card{text-align:center;padding:44px 18px 30px;min-height:290px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px}
+.badge{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;background:#f1ede3;color:#7a5c00}
+.badge.A{background:#e8f1ff;color:#2255a0}
+.badge.B{background:#f3f0e8;color:#6b5d2f}
+.badge.C{background:#f3e8ff;color:#6b21a8}
+.word{font-family:Georgia,"Times New Roman",serif;font-size:52px;font-weight:600;letter-spacing:.01em;word-break:break-word;line-height:1.15}
+.hint{font-size:12.5px;color:#9aa0a8}
+.ratings{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.ratings button{font:inherit;padding:12px 6px;border-radius:10px;border:1px solid var(--line);background:#fbfaf7;cursor:pointer;font-size:13.5px;line-height:1.35}
+.ratings button:hover{background:#f5f1e6}
+.ratings button small{display:block;font-size:11px;color:#9aa0a8}
+.r1{border-color:#e0b4b0}.r2{border-color:#e6d3a8}.r3{border-color:#b9d3bd}.r4{border-color:#b6cfe8}
+.reveal{background:#f8f6f0;border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;margin-top:16px;font-size:14.5px;line-height:1.85;display:none}
+.reveal.show{display:block}
+.reveal .meta{font-size:12px;color:var(--muted);margin-top:6px}
+.next-row{display:flex;gap:10px;align-items:center;margin-top:14px}
+button.primary{font:inherit;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 18px;cursor:pointer;font-size:14px}
+button.ghost{font:inherit;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer;font-size:13.5px}
+.progress{height:6px;background:#eee9dd;border-radius:99px;overflow:hidden;margin:12px 0}
+.progress i{display:block;height:100%;background:var(--accent);width:0%}
+.empty{text-align:center;color:var(--muted);padding:50px 10px;line-height:2}
+.wlist{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.wrow{display:flex;gap:10px;align-items:baseline;padding:10px 12px;border:1px solid #f0ede5;border-radius:10px;background:#fff;flex-wrap:wrap}
+.wrow .w{font-family:Georgia,serif;font-weight:600;font-size:15.5px;min-width:120px}
+.wrow .d{flex:1;font-size:13px;color:#39404a;line-height:1.6;min-width:180px}
+.wrow .st{font-size:11px;color:var(--muted);white-space:nowrap}
+.wrow .del{font-size:11.5px;color:#a33;cursor:pointer;border:none;background:none;text-decoration:underline;padding:0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.filters input,.filters select{font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.addform{display:grid;grid-template-columns:1fr 1.4fr 1fr auto;gap:8px;margin-top:12px}
+.addform input{font:inherit;font-size:13.5px;padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.bars{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px;align-items:end;height:150px}
+.bar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;height:100%}
+.bar i{display:block;width:100%;background:#e3d3a8;border-radius:6px 6px 0 0;min-height:2px}
+.bar span{font-size:10.5px;color:var(--muted)}
+.bar b{font-size:11px;color:#7a5c00}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.kv div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kv b{display:block;font-size:22px;margin-bottom:2px}
+.kv span{font-size:12px;color:var(--muted)}
+.about{font-size:13.5px;line-height:1.9}
+.about h3{font-size:14.5px;margin:18px 0 6px}
+.about code{background:#f3f0e8;padding:1px 5px;border-radius:4px;font-size:12.5px}
+.backup{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:620px){
+  .word{font-size:40px}
+  .ratings{grid-template-columns:repeat(2,1fr)}
+  .addform{grid-template-columns:1fr}
+  .app{padding:14px 12px 70px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>记忆训练</h1>
+    <span class="sub">词库来自每日精读 · 自评记忆强度 · FSRS 思想调度</span>
+  </header>
+  <nav>
+    <button data-view="train" class="active" id="nav-train">训练</button>
+    <button data-view="words" id="nav-words">词库</button>
+    <button data-view="stats" id="nav-stats">统计</button>
+    <button data-view="about" id="nav-about">关于算法</button>
+  </nav>
+  <main id="main"></main>
+</div>
+<script>
+window.__WORDS__ = {"words": [{"word": "wrestling", "def": "v. 努力应对（难题）；摔跤", "coll": "wrestle with a problem", "level": "L1", "note": "名词 wrestling = 摔跤", "date": "2026-11-12", "id": "wrestling", "tier": "B"}, {"word": "tank", "def": "v. 大幅下跌；削弱", "coll": "tank our motivation；tank the economy", "level": "L1", "note": "名词「坦克/水箱」→ 熟词僻义", "date": "2026-11-12", "id": "tank", "tier": "B"}, {"word": "sustained", "def": "adj. 持续的", "coll": "sustained effort / attention", "level": "L1", "note": "sustain v. 维持", "date": "2026-11-12", "id": "sustained", "tier": "B"}, {"word": "boosted", "def": "v. 提升", "coll": "boost performance / confidence", "level": "L1", "note": "n. a boost", "date": "2026-11-12", "id": "boosted", "tier": "A"}, {"word": "account for", "def": "解释；占（比例）", "coll": "account for the fatigue", "level": "L1", "note": "三义：解释 / 占比 / 负责", "date": "2026-11-12", "id": "account for", "tier": "B"}, {"word": "dispose", "def": "dispose of 处理掉、清除", "coll": "dispose of waste", "level": "L1", "note": "n. disposal", "date": "2026-11-12", "id": "dispose", "tier": "B"}, {"word": "comprehensive", "def": "adj. 全面的", "coll": "a comprehensive account", "level": "L1", "note": "v. comprehend 理解", "date": "2026-11-12", "id": "comprehensive", "tier": "B"}, {"word": "grueling", "def": "adj. 折磨人的、极累的", "coll": "a grueling year", "level": "L2", "note": "上下文负面；gruel 稀粥", "date": "2026-11-12", "id": "grueling", "tier": "B"}, {"word": "drained", "def": "adj. 精疲力竭的", "coll": "feel drained after hours of work", "level": "L2", "note": "drain 排水 → 被抽干", "date": "2026-11-12", "id": "drained", "tier": "B"}, {"word": "molecular culprit", "def": "分子层面的「罪魁祸首」", "coll": "the molecular culprit", "level": "L2", "note": "culprit 罪犯 → 元凶", "date": "2026-11-12", "id": "molecular culprit", "tier": "B"}, {"word": "led to", "def": "导致", "coll": "effort led to accumulation", "level": "L2", "note": "lead-led-led", "date": "2026-11-12", "id": "led to", "tier": "B"}, {"word": "electrodes", "def": "n. 电极", "coll": "electrodes stimulate the brain", "level": "L2", "note": "electro- 电", "date": "2026-11-12", "id": "electrodes", "tier": "B"}, {"word": "sense of fighting", "def": "挣扎感", "coll": "the sense of fighting to stay focused", "level": "L2", "note": "of + doing 名词化", "date": "2026-11-12", "id": "sense of fighting", "tier": "B"}, {"word": "throttle", "def": "n. 油门；v. 抑制", "coll": "at full throttle 全速", "level": "L2", "note": "车/机语境，引申「全速运转」", "date": "2026-11-12", "id": "throttle", "tier": "B"}, {"word": "neurobiological", "def": "adj. 神经生物学的", "coll": "neurobiological changes", "level": "L2", "note": "neuro- 神经 + biological", "date": "2026-11-12", "id": "neurobiological", "tier": "B"}, {"word": "psychological", "def": "adj. 心理的", "coll": "a purely psychological explanation", "level": "L2", "note": "psych- 心理", "date": "2026-11-12", "id": "psychological", "tier": "A"}, {"word": "prone", "def": "adj. 易于…的；（俯）卧的", "coll": "be prone to fatigue", "level": "L2", "note": "两个义项都要认识", "date": "2026-11-12", "id": "prone", "tier": "B"}, {"word": "prescription", "def": "n. 处方；解决方案", "coll": "her prescription is simple", "level": "L2", "note": "v. prescribe 开处方", "date": "2026-11-12", "id": "prescription", "tier": "B"}, {"word": "cognitive", "def": "adj. 认知的", "coll": "cognitive neuroscience", "level": "L3", "note": "cogn- 知道（recognize 同根）", "date": "2026-11-12", "id": "cognitive", "tier": "A"}, {"word": "neuroscience", "def": "n. 神经科学", "coll": "cognitive neuroscience", "level": "L3", "note": "neuro- 神经", "date": "2026-11-12", "id": "neuroscience", "tier": "B"}, {"word": "glutamate", "def": "n. 谷氨酸（一种神经递质）", "coll": "glutamate builds up", "level": "L3", "note": "专名，认得即可，不用会拼", "date": "2026-11-12", "id": "glutamate", "tier": "B"}, {"word": "prefrontal cortex", "def": "前额叶皮层", "coll": "the lateral prefrontal cortex", "level": "L3", "note": "pre- 前 + frontal 额 + cortex 皮层", "date": "2026-11-12", "id": "prefrontal cortex", "tier": "B"}, {"word": "dorsolateral", "def": "adj. 背外侧的", "coll": "dorsolateral prefrontal cortex", "level": "L3", "note": "dorso- 背 + lateral 侧", "date": "2026-11-12", "id": "dorsolateral", "tier": "B"}, {"word": "fatigue", "def": "n. 疲劳", "coll": "mental fatigue", "level": "L3", "note": "≈ exhaustion（同义替换）", "date": "2026-11-12", "id": "fatigue", "tier": "A"}, {"word": "molecules", "def": "n. 分子", "coll": "harmful molecules pile up", "level": "L3", "note": "adj. molecular", "date": "2026-11-12", "id": "molecules", "tier": "A"}, {"word": "schizophrenia", "def": "n. 精神分裂症", "coll": "depression and schizophrenia", "level": "L3", "note": "专名，认得即可", "date": "2026-11-12", "id": "schizophrenia", "tier": "B"}, {"word": "hinted", "def": "v. 暗示", "coll": "hint at sth", "level": "L3", "note": "hint n. 线索", "date": "2026-11-12", "id": "hinted", "tier": "B"}, {"word": "zaps", "def": "n. 电击、电刺激", "coll": "the zaps boosted performance", "level": "L3", "note": "口语 zap = 快速做", "date": "2026-11-12", "id": "zaps", "tier": "B"}, {"word": "revealed", "def": "v. 揭示、显示", "coll": "reveal the truth", "level": "L3", "note": "≈ showed", "date": "2026-11-12", "id": "revealed", "tier": "A"}, {"word": "piling up", "def": "堆积", "coll": "molecules keep piling up", "level": "L3", "note": "= accumulating", "date": "2026-11-12", "id": "piling up", "tier": "B"}, {"word": "creeps up", "def": "悄悄出现、逐渐上升", "coll": "fatigue creeps up", "level": "L3", "note": "creep-crept-crept（爬）", "date": "2026-11-12", "id": "creeps up", "tier": "B"}, {"word": "fixate on", "def": "死盯、过度专注于", "coll": "fixate on an unimportant task", "level": "L3", "note": "常带贬义", "date": "2026-11-12", "id": "fixate on", "tier": "B"}, {"word": "articulate", "def": "v. 清晰表达、阐明", "coll": "articulate the two levels", "level": "L3", "note": "adj. 口齿清晰的", "date": "2026-11-12", "id": "articulate", "tier": "B"}, {"word": "yet（最高级 + yet）", "def": "迄今为止", "coll": "the strongest evidence yet of a link", "level": "L3", "note": "不是「yet of」搭配，yet=so far", "date": "2026-11-12", "id": "yet（最高级 + yet）", "tier": "B"}, {"word": "stand to do", "def": "有望、预计会", "coll": "stand to gain big", "level": "L3", "note": "stand to gain / lose", "date": "2026-11-12", "id": "stand to do", "tier": "B"}, {"word": "at the expense of", "def": "以…为代价", "coll": "at the expense of more rewarding activities", "level": "L3", "note": "与 S20 联动记忆", "date": "2026-11-12", "id": "at the expense of", "tier": "B"}, {"word": "cortex", "def": "n. （大脑）皮层；原义树皮", "coll": "cerebral cortex；prefrontal cortex", "level": "延伸", "note": "拉丁「树皮」→ 包在外层；adj. cortical", "date": "2026-11-12", "id": "cortex", "tier": "B"}, {"word": "causal", "def": "adj. 因果的", "coll": "a causal study；a causal link", "level": "延伸", "note": "cause + -al；≠ casual（随意的）", "date": "2026-11-12", "id": "causal", "tier": "B"}, {"word": "cautious", "def": "adj. 谨慎的", "coll": "a cautious approach；be cautious about", "level": "延伸", "note": "与 causal / casual 三词辨析", "date": "2026-11-12", "id": "cautious", "tier": "A"}, {"word": "caustic", "def": "adj. 腐蚀性的；刻薄的", "coll": "caustic remarks", "level": "延伸", "note": "化学义 → 言辞义", "date": "2026-11-12", "id": "caustic", "tier": "B"}, {"word": "concentrations", "def": "n. 浓度；（注意力）专注；集中", "coll": "in high concentrations；lose concentration", "level": "延伸", "note": "con- 共同 + centr 中心 → 往中心聚；多义词", "date": "2026-11-12", "id": "concentrations", "tier": "B"}, {"word": "gray matter", "def": "n. 灰质；引申「脑子、脑力」", "coll": "let your gray matter recover；use your gray matter", "level": "延伸", "note": "美 gray / 英 grey；对比 white matter 白质", "date": "2026-11-12", "id": "gray matter", "tier": "B"}, {"word": "entirely", "def": "adv. 完全地，彻底地", "coll": "entirely unheard of", "level": "L1", "note": "entire 完整的 → entirely", "date": "2026-11-13", "id": "entirely", "tier": "B"}, {"word": "unconventional", "def": "adj. 非常规的", "coll": "an unconventional way of financing", "level": "L1", "note": "un- + conventional 常规的", "date": "2026-11-13", "id": "unconventional", "tier": "B"}, {"word": "takeovers", "def": "n. 收购，接管", "coll": "hostile takeover 敌意收购", "level": "L1", "note": "take over 接管", "date": "2026-11-13", "id": "takeovers", "tier": "B"}, {"word": "sector", "def": "n. 行业，部门", "coll": "the property sector 房地产行业", "level": "L1", "note": "与 section 区分", "date": "2026-11-13", "id": "sector", "tier": "A"}, {"word": "folded", "def": "v. 倒闭，垮掉", "coll": "the company folded", "level": "L1", "note": "熟词僻义：折叠 →（公司）垮掉", "date": "2026-11-13", "id": "folded", "tier": "B"}, {"word": "assets", "def": "n. 资产", "coll": "no executable assets", "level": "L1", "note": "反义：liabilities 负债", "date": "2026-11-13", "id": "assets", "tier": "A"}, {"word": "stalking", "def": "v. 跟踪；（此处）四处猎食、伺机而动", "coll": "has been stalking Chinese finance", "level": "L2", "note": "stalk 跟踪（猎物）", "date": "2026-11-13", "id": "stalking", "tier": "B"}, {"word": "triple", "def": "adj. 三重的", "coll": "a triple surprise 三重意外", "level": "L2", "note": "tri- 三", "date": "2026-11-13", "id": "triple", "tier": "A"}, {"word": "empire", "def": "n. 帝国；商业帝国", "coll": "build an empire", "level": "L2", "note": "引申义（非「国家」）", "date": "2026-11-13", "id": "empire", "tier": "A"}, {"word": "stunning", "def": "adj. 令人震惊的", "coll": "the most stunning revelation", "level": "L2", "note": "stun 使震惊", "date": "2026-11-13", "id": "stunning", "tier": "A"}, {"word": "metro", "def": "n. 地铁", "coll": "ride the metro", "level": "L2", "note": "= subway；英式常用 metro", "date": "2026-11-13", "id": "metro", "tier": "B"}, {"word": "nasty", "def": "adj. 糟糕的，令人不快的", "coll": "a nasty shock", "level": "L3", "note": "语气词，负面", "date": "2026-11-13", "id": "nasty", "tier": "B"}, {"word": "non-performing", "def": "adj. 不良的（贷款）", "coll": "non-performing loans 不良贷款", "level": "L3", "note": "NPL 缩写", "date": "2026-11-13", "id": "non-performing", "tier": "B"}, {"word": "set aside", "def": "预留、拨出（资金）", "coll": "capital set aside to cover losses", "level": "L3", "note": "会计「拨备」", "date": "2026-11-13", "id": "set aside", "tier": "B"}, {"word": "plunged", "def": "v. 暴跌", "coll": "the share price plunged by 10%", "level": "L3", "note": "= plummeted", "date": "2026-11-13", "id": "plunged", "tier": "A"}, {"word": "lender", "def": "n. 放贷方、银行", "coll": "the lender's troubles", "level": "L3", "note": "lend → lender", "date": "2026-11-13", "id": "lender", "tier": "A"}, {"word": "collateral", "def": "n. 抵押品", "coll": "property as collateral", "level": "L3", "note": "Q4 考点；担保资产", "date": "2026-11-13", "id": "collateral", "tier": "A"}, {"word": "imploded", "def": "v. 崩溃、内爆", "coll": "the property sector imploded", "level": "L3", "note": "im- 内 + plode 爆", "date": "2026-11-13", "id": "imploded", "tier": "B"}, {"word": "impairment", "def": "n. 减值（会计）", "coll": "huge impairment losses 巨额减值损失", "level": "L3", "note": "impair 损害 → 冲减利润", "date": "2026-11-13", "id": "impairment", "tier": "B"}, {"word": "conglomerate", "def": "n. 企业集团", "coll": "Baoneng, his conglomerate", "level": "L3", "note": "con- 共同 + glomer 团块", "date": "2026-11-13", "id": "conglomerate", "tier": "B"}, {"word": "hostile bid", "def": "敌意收购/竞购", "coll": "make a hostile bid for Vanke", "level": "L3", "note": "hostile 敌对的 + bid 出价", "date": "2026-11-13", "id": "hostile bid", "tier": "B"}, {"word": "state-owned", "def": "adj. 国有的", "coll": "a partly state-owned company", "level": "L3", "note": "state 国家 + owned 拥有", "date": "2026-11-13", "id": "state-owned", "tier": "A"}, {"word": "premiums", "def": "n. 保费；溢价", "coll": "insurance premiums 保费", "level": "L3", "note": "保险语境 = 保费", "date": "2026-11-13", "id": "premiums", "tier": "A"}, {"word": "insurers", "def": "n. 保险公司", "coll": "several insurers it owned", "level": "L3", "note": "insure + -er", "date": "2026-11-13", "id": "insurers", "tier": "A"}, {"word": "brazenness", "def": "n. 胆大妄为，厚颜", "coll": "this brazenness earned him…", "level": "L3", "note": "brazen 厚颜的", "date": "2026-11-13", "id": "brazenness", "tier": "B"}, {"word": "tribute", "def": "n. 致敬", "coll": "in tribute to American raiders", "level": "L3", "note": "pay tribute to", "date": "2026-11-13", "id": "tribute", "tier": "B"}, {"word": "raiders", "def": "n. 掠夺者；corporate raider = 公司狙击手/门口的野蛮人", "coll": "corporate raiders of the late 1980s", "level": "L3", "note": "raid 突袭；1980s 美国 LBO 时代（Icahn/Pickens）；文中指姚振华", "date": "2026-11-13", "id": "raiders", "tier": "B"}, {"word": "debt-fuelled", "def": "adj. 债务驱动的", "coll": "a debt-fuelled investment", "level": "L3", "note": "fuel 加燃料 → 驱动", "date": "2026-11-13", "id": "debt-fuelled", "tier": "B"}, {"word": "conquest", "def": "n. 征服", "coll": "commercial conquest", "level": "L3", "note": "conquer 征服", "date": "2026-11-13", "id": "conquest", "tier": "B"}, {"word": "tycoon", "def": "n. 大亨，巨头", "coll": "a property tycoon", "level": "L3", "note": "财经高频", "date": "2026-11-13", "id": "tycoon", "tier": "A"}, {"word": "plutocrat", "def": "n. 财阀，富豪", "coll": "a fellow indebted plutocrat", "level": "L3", "note": "pluto- 财富 + -crat 统治者", "date": "2026-11-13", "id": "plutocrat", "tier": "B"}, {"word": "rattle", "def": "v. 使不安，撼动", "coll": "rattle the banking system", "level": "L3", "note": "拟声「嘎嘎响」→ 惊扰", "date": "2026-11-13", "id": "rattle", "tier": "B"}, {"word": "executed", "def": "v. 处决；执行", "coll": "was executed in 2021", "level": "L3", "note": "execute 两义", "date": "2026-11-13", "id": "executed", "tier": "B"}, {"word": "barbarian", "def": "n. 野蛮人（文中绰号）", "coll": "the nickname \"barbarian\"", "level": "L3", "note": "比喻姚振华的激进收购", "date": "2026-11-13", "id": "barbarian", "tier": "A"}, {"word": "limo", "def": "n. 豪华轿车", "coll": "rather than taking a limo", "level": "L3", "note": "limousine 的口语缩写", "date": "2026-11-13", "id": "limo", "tier": "B"}, {"word": "executable", "def": "adj. 可执行的（资产=可变现的）", "coll": "no executable assets", "level": "L3", "note": "execute 执行 → 可执行", "date": "2026-11-13", "id": "executable", "tier": "B"}, {"word": "leveraged buyout (LBO)", "def": "杠杆收购：少量自有资金 + 大量借债收购公司，用目标公司现金流还债", "coll": "the LBO of RJR Nabisco (1988)", "level": "延伸", "note": "leverage 杠杆；借钱放大收益与风险；常伴随 asset stripping", "date": "2026-11-13", "id": "leveraged buyout (lbo)", "tier": "B"}, {"word": "junk bonds", "def": "垃圾债券：低评级、高利率的高收益债（high-yield bonds）", "coll": "used to finance hostile takeovers", "level": "延伸", "note": "1980s Milken/德崇证券推广；LBO 的「弹药」；评级 BB 以下", "date": "2026-11-13", "id": "junk bonds", "tier": "B"}, {"word": "property developer", "def": "房地产开发商", "coll": "a giant property developer；the property sector imploded", "level": "延伸", "note": "property 熟词僻义=房地产（= real estate）；developer 开发商/开发者", "date": "2026-11-13", "id": "property developer", "tier": "B"}, {"word": "reflects", "def": "v. 反映；reflect on 反思", "coll": "rising demand reflects a shift…", "level": "L1", "note": "reflection n. 反映/反射", "date": "2026-11-14", "id": "reflects", "tier": "A"}, {"word": "dominate", "def": "v. 主导，占主导地位", "coll": "Canada's producers dominate the global supply", "level": "L1", "note": "dominant adj. 主导的；domination n.", "date": "2026-11-14", "id": "dominate", "tier": "A"}, {"word": "alongside", "def": "prep. 与…一起、同时", "coll": "alongside managing the reserve", "level": "L1", "note": "along + side；= together with", "date": "2026-11-14", "id": "alongside", "tier": "B"}, {"word": "sweeter", "def": "adj. 更甜的（sweet 比较级）；此处双关「更美好」", "coll": "sweeter in the imagination than in reality", "level": "L2", "note": "sweet → sweeter → sweetest", "date": "2026-11-14", "id": "sweeter", "tier": "B"}, {"word": "calamity", "def": "n. 灾难，祸事", "coll": "the last such calamity was in 2008", "level": "L2", "note": "= disaster（正式）", "date": "2026-11-14", "id": "calamity", "tier": "A"}, {"word": "upswing", "def": "n. 上升，增长", "coll": "a sustained upswing in demand", "level": "L2", "note": "反义 downturn 下降", "date": "2026-11-14", "id": "upswing", "tier": "B"}, {"word": "spurted", "def": "v. 激增，猛增", "coll": "Production in New Brunswick has spurted", "level": "L2", "note": "= surged / jumped", "date": "2026-11-14", "id": "spurted", "tier": "B"}, {"word": "barrels", "def": "n. 桶（barrel 复数）", "coll": "whitewashed barrels stacked…", "level": "L3", "note": "oil barrel 石油桶", "date": "2026-11-14", "id": "barrels", "tier": "A"}, {"word": "stabilise", "def": "v. 稳定（美拼 stabilize）", "coll": "to stabilise prices and supply", "level": "L3", "note": "stable → stabilise；stability n.", "date": "2026-11-14", "id": "stabilise", "tier": "A"}, {"word": "syrup", "def": "n. 糖浆", "coll": "maple syrup 枫糖浆", "level": "L3", "note": "专名，认得即可", "date": "2026-11-14", "id": "syrup", "tier": "A"}, {"word": "skimmed", "def": "v. 撇去（浮沫）；偷走（skim off）", "coll": "syrup was skimmed in a heist", "level": "L3", "note": "skim milk 脱脂奶；11-16 测答成「削弱」❌", "date": "2026-11-14", "id": "skimmed", "tier": "B"}, {"word": "heist", "def": "n. 抢劫（大案），盗窃", "coll": "over $18m-worth of syrup was skimmed in a heist", "level": "L3", "note": "影视/新闻词", "date": "2026-11-14", "id": "heist", "tier": "B"}, {"word": "depleted", "def": "adj. 被耗尽的；deplete v. 消耗", "coll": "left its barrels depleted", "level": "L3", "note": "= exhausted / used up；11-16 测：没想起来 ❌", "date": "2026-11-14", "id": "depleted", "tier": "A"}, {"word": "tariffs", "def": "n. 关税", "coll": "uncertainty over American tariffs", "level": "L3", "note": "与 quota 区分：税 vs 数量", "date": "2026-11-14", "id": "tariffs", "tier": "A"}, {"word": "bulk syrup", "def": "散装糖浆", "coll": "wholesale market for bulk syrup", "level": "L3", "note": "bulk 大宗/散装；反义 retail 零售", "date": "2026-11-14", "id": "bulk syrup", "tier": "B"}, {"word": "quotas", "def": "n. 配额，限额", "coll": "strict marketing restrictions and output quotas", "level": "L3", "note": "quota 单数 → quotas 复数", "date": "2026-11-14", "id": "quotas", "tier": "A"}, {"word": "stymied", "def": "v. 阻碍，使受阻", "coll": "they had stymied the ability to expand output", "level": "L3", "note": "= hindered；非「冒犯」；11-16 测：没想起来 ❌", "date": "2026-11-14", "id": "stymied", "tier": "B"}, {"word": "blend", "def": "v. 混合，调配", "coll": "buyers who blend and package the syrup", "level": "L3", "note": "blender 搅拌机/调配商", "date": "2026-11-14", "id": "blend", "tier": "A"}, {"word": "bring forward", "def": "提前；提出（建议）", "coll": "which has led some buyers to bring forward purchases", "level": "延伸", "note": "反义 put off / postpone；lead sb to do = 促使某人做（同义 prompt/spur）", "date": "2026-11-14", "id": "bring forward", "tier": "B"}, {"word": "perceived", "def": "v. 认为，感知（perceive 过去式）", "coll": "perceive A as B；perceived as friendlier", "level": "L1", "note": "perception n. 认知/看法", "date": "2026-11-15", "id": "perceived", "tier": "A"}, {"word": "shelves", "def": "n. 货架（shelf 复数）", "coll": "on supermarket shelves", "level": "L1", "note": "shelf → shelves", "date": "2026-11-15", "id": "shelves", "tier": "B"}, {"word": "almond", "def": "n. 杏仁", "coll": "almond milk 杏仁奶", "level": "L2", "note": "专名，认得即可", "date": "2026-11-15", "id": "almond", "tier": "B"}, {"word": "ticking up", "def": "回升，小幅上升", "coll": "sales are ticking up", "level": "L2", "note": "tick up 反义 tick down", "date": "2026-11-15", "id": "ticking up", "tier": "B"}, {"word": "mainstream", "def": "主流；主流的", "coll": "went mainstream in the 2010s", "level": "L2", "note": "main + stream", "date": "2026-11-15", "id": "mainstream", "tier": "A"}, {"word": "Oatly", "def": "n. 燕麦奶品牌（瑞典）", "coll": "Oatly claims…", "level": "L2", "note": "专名，认得即可", "date": "2026-11-15", "id": "oatly", "tier": "B"}, {"word": "saturated", "def": "adj. 饱和的", "coll": "saturated fat 饱和脂肪", "level": "L2", "note": "saturate v. 使饱和", "date": "2026-11-15", "id": "saturated", "tier": "B"}, {"word": "alt-milk", "def": "n. 植物奶（alternative milk 缩写）", "coll": "alt-milk makers", "level": "L2", "note": "alt = alternative", "date": "2026-11-15", "id": "alt-milk", "tier": "B"}, {"word": "calcium", "def": "n. 钙", "coll": "fortify with calcium", "level": "L2", "note": "化学/营养词，认得即可", "date": "2026-11-15", "id": "calcium", "tier": "B"}, {"word": "iodine and vitamins", "def": "碘和维生素", "coll": "fortified with iodine and vitamins", "level": "L2", "note": "营养标签高频", "date": "2026-11-15", "id": "iodine and vitamins", "tier": "B"}, {"word": "pistachios, pecans and barley", "def": "开心果、碧根果和大麦", "coll": "milks made from pistachios, pecans and barley", "level": "L2", "note": "坚果/谷物词群", "date": "2026-11-15", "id": "pistachios, pecans and barley", "tier": "B"}, {"word": "cinnamon roll", "def": "肉桂卷", "coll": "cinnamon-roll drink", "level": "L3", "note": "cinnamon 肉桂", "date": "2026-11-15", "id": "cinnamon roll", "tier": "B"}, {"word": "dairy", "def": "n. 奶制品；adj. 乳制的", "coll": "dairy milk；dairy co-operative", "level": "L3", "note": "与 alt-milk 对立", "date": "2026-11-15", "id": "dairy", "tier": "B"}, {"word": "oat", "def": "n. 燕麦", "coll": "oat milk 燕麦奶", "level": "L3", "note": "oatmeal 燕麦粥", "date": "2026-11-15", "id": "oat", "tier": "B"}, {"word": "post-pandemic", "def": "adj. 疫情后的", "coll": "post-pandemic pinch", "level": "L3", "note": "post- 之后 + pandemic 疫情", "date": "2026-11-15", "id": "post-pandemic", "tier": "B"}, {"word": "gums", "def": "n. 胶（食品添加剂）；牙龈", "coll": "gums, oils, sugars and flavourings", "level": "L3", "note": "一词两义：食品胶/牙龈", "date": "2026-11-15", "id": "gums", "tier": "B"}, {"word": "ingredients", "def": "n. 配料，成分", "coll": "alt-milks' ingredients", "level": "L3", "note": "食品包装必看词", "date": "2026-11-15", "id": "ingredients", "tier": "B"}, {"word": "revenue", "def": "n. 收入，营收", "coll": "revenue from high-protein products", "level": "L3", "note": "财经高频；revenue ≠ profit", "date": "2026-11-15", "id": "revenue", "tier": "A"}, {"word": "quark", "def": "n. 夸克（一种奶制品）", "coll": "quark and skyr", "level": "L3", "note": "专名，认得即可", "date": "2026-11-15", "id": "quark", "tier": "B"}, {"word": "skyr", "def": "n. 冰岛酸奶", "coll": "high-protein products like quark and skyr", "level": "L3", "note": "专名，认得即可", "date": "2026-11-15", "id": "skyr", "tier": "B"}, {"word": "fortify", "def": "v. 强化（营养），加固", "coll": "fortify its milks with calcium", "level": "L3", "note": "fortified 强化过的", "date": "2026-11-15", "id": "fortify", "tier": "B"}, {"word": "yoghurts", "def": "n. 酸奶（英拼；美拼 yogurt）", "coll": "soya milks and yoghurts", "level": "L3", "note": "英式多一个 h", "date": "2026-11-15", "id": "yoghurts", "tier": "B"}, {"word": "converts", "def": "n. 转投者，皈依者", "coll": "converts to alt-milks", "level": "L3", "note": "v. convert 转变", "date": "2026-11-15", "id": "converts", "tier": "B"}, {"word": "mimicking", "def": "v. 模仿（mimic 的 -ing 形式）", "coll": "drinks mimicking cows' milk", "level": "L3", "note": "mimic 三态 mimic-mimicked", "date": "2026-11-15", "id": "mimicking", "tier": "B"}, {"word": "flopped", "def": "v. 失败，砸锅", "coll": "drinks … have flopped", "level": "L3", "note": "= failed；flop 也指「失败之作」", "date": "2026-11-15", "id": "flopped", "tier": "B"}, {"word": "novelty", "def": "n. 新奇事物；新意", "coll": "novelty is the way forward", "level": "L3", "note": "novel 新奇的 + -ty", "date": "2026-11-15", "id": "novelty", "tier": "B"}, {"word": "spurred", "def": "v. 促进，刺激", "coll": "has spurred a new strategy", "level": "L3", "note": "= prompted；spur on", "date": "2026-11-15", "id": "spurred", "tier": "B"}, {"word": "sprouting", "def": "v. 冒出，出现（sprout）", "coll": "are also sprouting on shelves", "level": "L3", "note": "sprout 发芽 → 涌现", "date": "2026-11-15", "id": "sprouting", "tier": "B"}, {"word": "social-media chatter", "def": "社交媒体讨论/言论", "coll": "analyses social-media chatter", "level": "L3", "note": "chatter 闲聊/议论", "date": "2026-11-15", "id": "social-media chatter", "tier": "B"}, {"word": "waned", "def": "v. 减弱，衰退（wane 过去式）", "coll": "interest … has waned", "level": "L3", "note": "反义 wax（wax and wane 盛衰）", "date": "2026-11-15", "id": "waned", "tier": "B"}, {"word": "assert", "def": "v. 断言，声称", "coll": "quizzes assert they can…；assert oneself 坚持己见", "level": "L1", "note": "assertion n.；与 claim 近义", "date": "2026-11-16", "id": "assert", "tier": "B"}, {"word": "categorically", "def": "adv. 断然地，绝对地", "coll": "is categorically false 完全错误", "level": "L1", "note": "category 范畴 → categorical 绝对的", "date": "2026-11-16", "id": "categorically", "tier": "B"}, {"word": "fascinated", "def": "adj. 着迷的", "coll": "be fascinated by sth", "level": "L1", "note": "fascinate v. 使着迷；fascinating 迷人的", "date": "2026-11-16", "id": "fascinated", "tier": "B"}, {"word": "ascertain", "def": "v. 查明，确定", "coll": "ascertain whether…", "level": "L2", "note": "= find out；与 assert（断言）区分", "date": "2026-11-16", "id": "ascertain", "tier": "B"}, {"word": "excel", "def": "v. 擅长", "coll": "excel at/in language and math", "level": "L2", "note": "excellent adj. 优秀的", "date": "2026-11-16", "id": "excel", "tier": "B"}, {"word": "hemisphere", "def": "n. 半球", "coll": "the left and right hemispheres", "level": "L2", "note": "hemi- 半 + sphere 球", "date": "2026-11-16", "id": "hemisphere", "tier": "B"}, {"word": "vertebrate", "def": "n. 脊椎动物；adj. 有脊椎的", "coll": "all vertebrate animals", "level": "L2", "note": "vertebra 脊椎", "date": "2026-11-16", "id": "vertebrate", "tier": "B"}, {"word": "take sth with a grain of salt", "def": "对…持保留/怀疑态度", "coll": "take it with an enormous grain of salt", "level": "L2", "note": "字面「加一撮盐」→ 存疑", "date": "2026-11-16", "id": "take sth with a grain of salt", "tier": "B"}, {"word": "spatial", "def": "adj. 空间的", "coll": "spatial reasoning 空间推理", "level": "L3", "note": "space → spatial", "date": "2026-11-16", "id": "spatial", "tier": "B"}, {"word": "woven", "def": "v. 编织（weave 过去分词）；融入", "coll": "it's become woven in popular culture", "level": "L3", "note": "weave-wove-woven", "date": "2026-11-16", "id": "woven", "tier": "B"}, {"word": "vice versa", "def": "反之亦然", "coll": "the right hemisphere controls the left side, and vice versa", "level": "L3", "note": "拉丁语；vice = 反过来", "date": "2026-11-16", "id": "vice versa", "tier": "B"}, {"word": "symmetry", "def": "n. 对称", "coll": "nature tends toward perfect symmetry", "level": "L3", "note": "sym- 共同 + metry 测量；symmetrical adj.", "date": "2026-11-16", "id": "symmetry", "tier": "B"}, {"word": "misinterpretations", "def": "n. 误解", "coll": "misinterpretations in the general public", "level": "L3", "note": "mis- 错误 + interpretation 解释", "date": "2026-11-16", "id": "misinterpretations", "tier": "B"}, {"word": "irresistible", "def": "adj. 不可抗拒的，极诱人的", "coll": "It's irresistible.", "level": "L3", "note": "ir- 不 + resist 抵抗；≠ harmless 无伤大雅", "date": "2026-11-16", "id": "irresistible", "tier": "B"}, {"word": "innovative", "def": "adj. 创新的", "coll": "an innovative teaching model", "level": "L1", "note": "innovate v.；innovation n.", "date": "2026-11-17", "id": "innovative", "tier": "A"}, {"word": "beyond", "def": "prep. 超出；在…之外", "coll": "spreading to schools beyond；beyond doubt", "level": "L1", "note": "常见搭配：beyond control/expectation", "date": "2026-11-17", "id": "beyond", "tier": "B"}, {"word": "profession", "def": "n. 职业", "coll": "the teaching profession", "level": "L1", "note": "professional adj. 专业的", "date": "2026-11-17", "id": "profession", "tier": "A"}, {"word": "enrollment", "def": "n. 入学人数；注册", "coll": "declining student enrollment", "level": "L2", "note": "enroll v. 注册", "date": "2026-11-17", "id": "enrollment", "tier": "B"}, {"word": "morale and retention", "def": "士气与留存率", "coll": "boost teacher morale and retention", "level": "L2", "note": "morale 士气；retention 保留", "date": "2026-11-17", "id": "morale and retention", "tier": "B"}, {"word": "gamble", "def": "n./v. 赌博；冒险", "coll": "the gamble could pay off", "level": "L2", "note": "pay off = 有回报", "date": "2026-11-17", "id": "gamble", "tier": "B"}, {"word": "superintendent", "def": "n. 主管；学区总监", "coll": "superintendent of Mesa Public Schools", "level": "L2", "note": "supervise 同源", "date": "2026-11-17", "id": "superintendent", "tier": "B"}, {"word": "bewildered", "def": "adj. 困惑的", "coll": "had bewildered him", "level": "L2", "note": "bewilder v. 使困惑", "date": "2026-11-17", "id": "bewildered", "tier": "B"}, {"word": "thorny", "def": "adj. 棘手的", "coll": "thorny questions", "level": "L2", "note": "thorn 刺 → 扎手 → 棘手", "date": "2026-11-17", "id": "thorny", "tier": "B"}, {"word": "dissolve", "def": "v. 溶解；消除，解散", "coll": "dissolve the walls that separate classes", "level": "L3", "note": "比喻：打破隔阂", "date": "2026-11-17", "id": "dissolve", "tier": "A"}, {"word": "rotate", "def": "v. 轮流，轮换；旋转", "coll": "rotate between group instruction and…", "level": "L3", "note": "rotation n.", "date": "2026-11-17", "id": "rotate", "tier": "A"}, {"word": "interventions", "def": "n. 干预，介入", "coll": "one-on-one interventions", "level": "L3", "note": "intervene v.", "date": "2026-11-17", "id": "interventions", "tier": "A"}, {"word": "orchestrated", "def": "adj. 精心编排的", "coll": "a carefully orchestrated plan", "level": "L3", "note": "orchestra 管弦乐团 → orchestrate", "date": "2026-11-17", "id": "orchestrated", "tier": "B"}, {"word": "hammer out", "def": "反复讨论敲定", "coll": "meet to hammer out a program", "level": "L3", "note": "hammer 敲打", "date": "2026-11-17", "id": "hammer out", "tier": "B"}, {"word": "collaborate", "def": "v. 合作", "coll": "more opportunity to collaborate", "level": "L3", "note": "collaboration n.", "date": "2026-11-17", "id": "collaborate", "tier": "A"}, {"word": "overhauling", "def": "v. 彻底改革（overhaul）", "coll": "overhauling teaching approaches", "level": "L3", "note": "over + haul 全面检修", "date": "2026-11-17", "id": "overhauling", "tier": "B"}, {"word": "reverse low morale", "def": "扭转低迷士气", "coll": "helping to reverse low morale", "level": "L3", "note": "reverse v. 扭转；morale 士气", "date": "2026-11-17", "id": "reverse low morale", "tier": "B"}, {"word": "appraisal", "def": "n. 评估", "coll": "a performance appraisal 绩效评估", "level": "L3", "note": "appraise v. 评估", "date": "2026-11-17", "id": "appraisal", "tier": "B"}, {"word": "cross divides", "def": "跨越界限", "coll": "dissolve walls across physical or grade divides", "level": "L3", "note": "divide n. 分界线", "date": "2026-11-17", "id": "cross divides", "tier": "B"}, {"word": "federal", "def": "adj. 联邦的", "coll": "state and federal family leave policies", "level": "L1", "note": "federal vs state 联邦 vs 州", "date": "2026-11-19", "id": "federal", "tier": "A"}, {"word": "monitoring", "def": "v. 监测，关注", "coll": "those monitoring the process", "level": "L1", "note": "monitor v./n.", "date": "2026-11-19", "id": "monitoring", "tier": "A"}, {"word": "addressed", "def": "v. 处理，解决", "coll": "problems had been addressed", "level": "L1", "note": "address a problem = 解决问题", "date": "2026-11-19", "id": "addressed", "tier": "B"}, {"word": "eat into", "def": "侵蚀，占用", "coll": "eat into time available for work", "level": "L2", "note": "eat into savings/time", "date": "2026-11-19", "id": "eat into", "tier": "B"}, {"word": "stalled", "def": "v. 停滞，卡住", "coll": "the journey would have stalled", "level": "L2", "note": "stall = 熄火/停滞", "date": "2026-11-19", "id": "stalled", "tier": "B"}, {"word": "yawning", "def": "adj. 张开的；巨大的", "coll": "the gap remains yawning", "level": "L3", "note": "yawning gap 巨大差距", "date": "2026-11-19", "id": "yawning", "tier": "B"}, {"word": "stagnation", "def": "n. 停滞", "coll": "the stagnation can be put down to…", "level": "L3", "note": "stagnate v.", "date": "2026-11-19", "id": "stagnation", "tier": "B"}, {"word": "leave policies", "def": "休假政策", "coll": "family leave policies", "level": "L3", "note": "maternity/paternity leave", "date": "2026-11-19", "id": "leave policies", "tier": "B"}, {"word": "convergence", "def": "n. 趋同，收敛", "coll": "gender wage convergence", "level": "L3", "note": "converge v. 趋同", "date": "2026-11-19", "id": "convergence", "tier": "B"}, {"word": "penalty", "def": "n. 惩罚；不利后果", "coll": "the motherhood penalty", "level": "L3", "note": "引申义：劣势", "date": "2026-11-19", "id": "penalty", "tier": "A"}, {"word": "parity", "def": "n. 平等，同等", "coll": "wage parity；at parity by now", "level": "L3", "note": "on par with 与…持平", "date": "2026-11-19", "id": "parity", "tier": "B"}, {"word": "erasure", "def": "n. 消除，抹除", "coll": "the erasure of things like bias", "level": "L3", "note": "erase v.", "date": "2026-11-19", "id": "erasure", "tier": "B"}, {"word": "counterintuitively", "def": "adv. 反直觉地", "coll": "perhaps counterintuitively", "level": "L3", "note": "counter- + intuitive", "date": "2026-11-19", "id": "counterintuitively", "tier": "B"}, {"word": "bias", "def": "n. 偏见", "coll": "things like bias", "level": "L3", "note": "gender bias 性别偏见", "date": "2026-11-19", "id": "bias", "tier": "A"}, {"word": "mandated", "def": "adj. 强制规定的", "coll": "whether or not those breaks were mandated", "level": "L3", "note": "mandate v./n.", "date": "2026-11-19", "id": "mandated", "tier": "B"}, {"word": "gains", "def": "n. 成果、进展（≠仅指钱）", "coll": "gains in the 1980s；gains in education；capital gains 资本利得", "level": "L3", "note": "gain 作名词可指收益，也可指取得的进展", "date": "2026-11-19", "id": "gains", "tier": "A"}, {"word": "demonstrates", "def": "v. 表明，证明", "coll": "as the Captcha demonstrates", "level": "L1", "note": "demonstrate v.；demonstration n.", "date": "2026-11-18", "id": "demonstrates", "tier": "B"}, {"word": "conceived", "def": "v. 构想；怀孕（conceive 过去式）", "coll": "The Turing test was conceived as…", "level": "L2", "note": "be conceived as 被构想为", "date": "2026-11-18", "id": "conceived", "tier": "B"}, {"word": "log into", "def": "登录", "coll": "log into a service", "level": "L3", "note": "log in / log out", "date": "2026-11-18", "id": "log into", "tier": "B"}, {"word": "lamb", "def": "n. 羔羊；温顺的人", "coll": "Like a lamb, I complied", "level": "L3", "note": "like a lamb 温顺地", "date": "2026-11-18", "id": "lamb", "tier": "B"}, {"word": "complied", "def": "v. 服从，照做", "coll": "I complied", "level": "L3", "note": "comply with sth 遵守", "date": "2026-11-18", "id": "complied", "tier": "B"}, {"word": "irony", "def": "n. 讽刺，反讽", "coll": "the delicious additional irony", "level": "L3", "note": "ironic adj.", "date": "2026-11-18", "id": "irony", "tier": "B"}, {"word": "unparalleled", "def": "adj. 无与伦比的", "coll": "this unparalleled shift", "level": "L3", "note": "parallel 平行的 → unparalleled 无双的", "date": "2026-11-18", "id": "unparalleled", "tier": "B"}, {"word": "metaphor", "def": "n. 比喻，隐喻", "coll": "The metaphor of the boiling frog", "level": "L3", "note": "metaphorical adj.", "date": "2026-11-18", "id": "metaphor", "tier": "B"}, {"word": "subtly", "def": "adv. 微妙地", "coll": "so subtly conditioned", "level": "L3", "note": "subtle adj. 微妙的", "date": "2026-11-18", "id": "subtly", "tier": "B"}, {"word": "governed", "def": "v. 统治，支配（govern 过去分词）", "coll": "a world governed by smart tech", "level": "L3", "note": "government n.", "date": "2026-11-18", "id": "governed", "tier": "B"}, {"word": "proportion", "def": "n. 比例；部分", "coll": "a significant proportion of digital tech", "level": "L3", "note": "in proportion to 与…成比例", "date": "2026-11-18", "id": "proportion", "tier": "A"}, {"word": "rat", "def": "n. 老鼠（rats 复数）", "coll": "cheery rats running on treadmills", "level": "L3", "note": "rat vs mouse", "date": "2026-11-18", "id": "rat", "tier": "A"}, {"word": "irritated", "def": "adj. 恼火的", "coll": "I did so, a bit irritated", "level": "L3", "note": "irritate v. 使恼火", "date": "2026-11-18", "id": "irritated", "tier": "B"}, {"word": "submissively", "def": "adv. 顺从地，恭顺地", "coll": "Like a lamb, he complied submissively.", "level": "L3", "note": "submit 屈服 → submissive → submissively", "date": "2026-11-18", "id": "submissively", "tier": "B"}, {"word": "readily", "def": "adv. 欣然地；轻易地", "coll": "readily agree；readily available 随手可得", "level": "L3", "note": "ready → readily", "date": "2026-11-18", "id": "readily", "tier": "B"}, {"word": "reluctantly", "def": "adv. 不情愿地", "coll": "reluctantly agree；reluctant to do", "level": "L3", "note": "reluctant adj. 不情愿的", "date": "2026-11-18", "id": "reluctantly", "tier": "B"}, {"word": "profound", "def": "adj. 深刻的，深远的", "coll": "a profound transformation", "level": "L1", "note": "profoundly adv.", "date": "2026-11-20", "id": "profound", "tier": "B"}, {"word": "chronic", "def": "adj. 慢性的，长期的", "coll": "chronic illness", "level": "L2", "note": "acute 急性 vs chronic 慢性", "date": "2026-11-20", "id": "chronic", "tier": "B"}, {"word": "commodity", "def": "n. 商品", "coll": "attention transformed into a commodity", "level": "L2", "note": "commodify v. 商品化", "date": "2026-11-20", "id": "commodity", "tier": "B"}, {"word": "contemporary", "def": "adj. 当代的", "coll": "in our contemporary world", "level": "L2", "note": "contemporaries 同代人", "date": "2026-11-20", "id": "contemporary", "tier": "B"}, {"word": "craving", "def": "n. 渴望，强烈欲望", "coll": "having a craving", "level": "L3", "note": "crave v.；crave for", "date": "2026-11-20", "id": "craving", "tier": "B"}, {"word": "amplifies", "def": "v. 放大，增强", "coll": "amplifies the feeling", "level": "L3", "note": "amplify → amplification", "date": "2026-11-20", "id": "amplifies", "tier": "B"}, {"word": "spiraling", "def": "v. 盘旋；失控升级（spiral 的 -ing）", "coll": "sends the mind spiraling off", "level": "L3", "note": "spiral costs 螺旋上涨", "date": "2026-11-20", "id": "spiraling", "tier": "B"}, {"word": "perpetual", "def": "adj. 永久的，不断的", "coll": "a perpetual diversion", "level": "L3", "note": "perpetually adv.", "date": "2026-11-20", "id": "perpetual", "tier": "B"}, {"word": "diversion", "def": "n. 转移注意力的东西；改道", "coll": "a perpetual diversion from the present moment", "level": "L3", "note": "divert v.", "date": "2026-11-20", "id": "diversion", "tier": "B"}, {"word": "rests on", "def": "依赖于，建立在…之上", "coll": "This economy rests on a technological revolution", "level": "L3", "note": "rest on = depend on", "date": "2026-11-20", "id": "rests on", "tier": "B"}, {"word": "relish", "def": "v. 享受，品味", "coll": "relish the things that make life special", "level": "L3", "note": "relish the challenge", "date": "2026-11-20", "id": "relish", "tier": "B"}, {"word": "compassion", "def": "n. 同情，怜悯", "coll": "listening with compassion", "level": "L3", "note": "com- + passion；compassionate adj.", "date": "2026-11-20", "id": "compassion", "tier": "B"}, {"word": "conducive", "def": "adj. 有助于…的", "coll": "be conducive to sth / doing sth", "level": "L3", "note": "词根 duc/duct = lead（引导）", "date": "2026-11-20", "id": "conducive", "tier": "B"}, {"word": "forge", "def": "v. 锻造；缔造（关系）；伪造", "coll": "forge relationships；a forged signature", "level": "L3", "note": "多义：关系/签名/铁器", "date": "2026-11-20", "id": "forge", "tier": "B"}], "builtAt": "2026-11-21 21:53", "total": 209, "aCount": 46};
+</script>
+<script>
+(function(){
+  "use strict";
+  var DATA = window.__WORDS__ || {words:[], builtAt:'', total:0, aCount:0};
+  var LSKEY = 'jingdu-srs-beta-v1';
+  var DAY = 86400000, MIN = 60000;
+  var R_TARGET = 0.9;
+  var S0 = {1:0.01, 2:1.2, 3:2.5, 4:6.0};   // 首次评分后的稳定度（天）：忘记=10分钟
+  var GROWTH = {2:0.15, 3:0.75, 4:1.4};      // 复习后稳定度增长比例
+
+  var store = load();
+  function load(){
+    try{
+      var raw = localStorage.getItem(LSKEY);
+      if(raw){ var o = JSON.parse(raw); return normalize(o); }
+    }catch(e){}
+    return normalize({});
+  }
+  function normalize(o){
+    o = o || {};
+    o.cards = o.cards || {};
+    o.custom = o.custom || [];
+    o.settings = Object.assign({newPerDay:12}, o.settings || {});
+    o.sessions = o.sessions || [];
+    return o;
+  }
+  function save(){ try{ localStorage.setItem(LSKEY, JSON.stringify(store)); }catch(e){ toast('此环境无法保存，请用导出备份'); } }
+  var saveTimer=null;
+  function saveSoon(){ clearTimeout(saveTimer); saveTimer=setTimeout(save, 200); }
+
+  function toast(msg){
+    var el=document.getElementById('toast-el');
+    if(!el){ el=document.createElement('div'); el.id='toast-el';
+      el.style.cssText='position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#1f2328;color:#fff;padding:10px 18px;border-radius:99px;font-size:13.5px;z-index:99;transition:.2s';
+      document.body.appendChild(el);
+    }
+    el.textContent=msg; el.style.opacity='1';
+    clearTimeout(el._t); el._t=setTimeout(function(){ el.style.opacity='0'; },2000);
+  }
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ---------- 词库 ---------- */
+  function allWords(){
+    var list = (DATA.words||[]).map(function(w){ return Object.assign({}, w); });
+    (store.custom||[]).forEach(function(w){ list.push(Object.assign({custom:true}, w)); });
+    return list;
+  }
+  function wordMap(){ var m={}; allWords().forEach(function(w){ m[w.id]=w; }); return m; }
+  function cardOf(id){ return store.cards[id] || null; }
+  function newWords(){
+    var wm = wordMap();
+    return allWords().filter(function(w){ return !store.cards[w.id] && !w.custom; });
+  }
+
+  /* ---------- 调度器（FSRS 思想简化） ---------- */
+  function retrievability(card, now){
+    if(!card || !card.s || !card.last) return 0;
+    var elapsedDays = (now - card.last) / DAY;
+    if(elapsedDays <= 0) return 1;
+    return Math.exp(Math.log(R_TARGET) * elapsedDays / card.s);
+  }
+  function schedule(card, rating, now){
+    var c = card ? Object.assign({}, card) : {s:0,d:5,due:now,last:0,reps:0,lapses:0,state:'new'};
+    if(rating === 1){
+      c.lapses++;
+      c.s = c.reps === 0 ? S0[1] : Math.max(0.3, c.s * 0.25);
+      c.d = Math.min(10, (c.d || 5) + 0.8);
+      c.state = 'learning';
+    }else{
+      c.s = c.reps === 0 ? S0[rating] : c.s * (1 + GROWTH[rating]);
+      c.d = Math.max(1, (c.d || 5) - (rating===2?0.1:(rating===3?0.25:0.4)));
+      c.state = c.s >= 21 ? 'mature' : 'review';
+    }
+    c.reps++; c.last = now; c.due = now + c.s * DAY;
+    return c;
+  }
+  function dueCards(now){
+    return Object.keys(store.cards)
+      .filter(function(id){ return store.cards[id].due <= now && wordMap()[id]; })
+      .sort(function(a,b){ return store.cards[a].due - store.cards[b].due; });
+  }
+  function fmtIn(ms){
+    if(ms < 0) return '现在';
+    var m = ms/MIN;
+    if(m < 60) return Math.max(1, Math.round(m)) + ' 分钟';
+    var d = ms/DAY;
+    if(d < 30) return (d < 1 ? Math.round(m/60)+' 小时' : Math.round(d)+' 天');
+    return Math.round(d/30) + ' 个月';
+  }
+
+  /* ---------- 训练 ---------- */
+  var session = null;
+  var revealed = false;
+
+  function localDate(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function buildSession(){
+    var now = Date.now();
+    var due = dueCards(now);
+    var newQ = newWords().sort(function(a,b){
+      if(a.tier !== b.tier) return a.tier === 'A' ? -1 : 1;
+      return a.date < b.date ? 1 : -1;
+    }).slice(0, store.settings.newPerDay);
+    var ids = due.concat(newQ.map(function(w){ return w.id; }));
+    return {
+      date: localDate(),
+      queue: ids.map(function(id){ return {id:id, turns:1}; }),
+      idx: 0,
+      ratings: {1:0,2:0,3:0,4:0},
+      newCount: newQ.length,
+      startedAt: now
+    };
+  }
+  function ensureSession(){
+    if(!session){
+      if(store.session && store.session.date === localDate()) session = store.session;
+      else session = buildSession();
+    }
+    return session;
+  }
+  function saveSession(){ store.session = session; save(); }
+
+  function renderTrain(){
+    var doneToday = store.lastSessionDate === localDate();
+    if(doneToday && !(store.session && store.session.date === localDate())){ renderDone(); return; }
+    var s = ensureSession();
+    if(!s || s.queue.length === 0){ renderDone(); return; }
+    if(s.idx >= s.queue.length){ renderSummary(); return; }
+    var total = s.queue.length, done = s.idx;
+    var item = s.queue[s.idx];
+    var wm = wordMap();
+    var w = wm[item.id];
+    if(!w){ s.idx++; saveSession(); return renderTrain(); }
+    var c = cardOf(item.id);
+    var now = Date.now();
+    var main = document.getElementById('main');
+    var pct = total ? Math.round(done*100/total) : 0;
+    main.innerHTML =
+      '<div class="stat-line"><span>今日第 <b>'+(done+1)+'</b> / '+total+' 张</span>'+
+      '<span>本次词数：<b>'+Object.keys(s.queue.reduce(function(m,it){ m[it.id]=1; return m; },{})).length+'</b></span>'+
+      (c ? '<span>预计保持率：<b>'+Math.round(retrievability(c, now)*100)+'%</b></span>' : '<span class="badge '+esc(w.tier||'B')+'">新词 · '+esc(w.tier||'B')+' 类</span>')+
+      (item.turns>1 ? '<span class="badge">第 '+item.turns+' 次出现</span>' : '')+
+      '</div>'+
+      '<div class="progress"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="card"><div class="word-card">'+
+        '<div class="badge '+esc(w.tier||'B')+'">'+(item.turns>1?'课内重考':'新词/复习')+' · '+esc(w.tier||'B')+' 类'+(w.custom?' · 手动添加':'')+'</div>'+
+        '<div class="word">'+esc(w.word)+'</div>'+
+        '<div class="hint">先判断认识程度再评分；答不出的词本次会再出现</div>'+
+        '<div class="ratings">'+
+          '<button class="r1" data-r="1">忘记<small>1 · 本次稍后再考</small></button>'+
+          '<button class="r2" data-r="2">模糊<small>2 · 本次可能再考</small></button>'+
+          '<button class="r3" data-r="3">认识<small>3 · 这个词过关</small></button>'+
+          '<button class="r4" data-r="4">很熟<small>4 · 秒懂，能造句</small></button>'+
+        '</div>'+
+        '<div class="reveal" id="reveal"></div>'+
+      '</div></div>';
+    var revealEl = document.getElementById('reveal');
+    var advanced = false;
+    function doRate(rating){
+      if(advanced) return; advanced = true;
+      var card = schedule(cardOf(item.id), rating, Date.now());
+      store.cards[item.id] = card;
+      s.ratings[rating] = (s.ratings[rating]||0) + 1;
+      var reinsert = false, gap = 0;
+      if(rating <= 2 && item.turns < 3){
+        reinsert = true;
+        gap = rating === 1 ? 2 : 4;
+      }
+      revealEl.className = 'reveal show';
+      revealEl.innerHTML = '<div><b>'+esc(w.word)+'</b> — '+esc(w.def||'')+'</div>'+
+        (w.coll?'<div style="font-size:13.5px;margin-top:6px">搭配 / 例句：'+esc(w.coll)+'</div>':'')+
+        '<div class="meta">来源：'+esc(w.date||'')+(w.tier?' · '+esc(w.tier)+' 类':'')+
+          ' ｜ 下次：'+fmtIn(card.due-Date.now())+' 后'+
+          (reinsert?' ｜ <b>本次还会再考一次</b>':'')+'</div>'+
+        '<div class="next-row"><button class="primary" id="btn-next">下一个 →</button><span class="hint">空格</span></div>';
+      save();
+      function next(){
+        s.idx++;
+        if(reinsert){
+          var pos = Math.min(s.queue.length, s.idx + gap);
+          s.queue.splice(pos, 0, {id:item.id, turns:item.turns+1});
+        }
+        saveSession();
+        renderTrain();
+      }
+      var nb = document.getElementById('btn-next');
+      if(nb) nb.addEventListener('click', next);
+      document._nextFn = next;
+    }
+    main.querySelectorAll('.ratings button').forEach(function(b){
+      b.addEventListener('click', function(){ doRate(parseInt(b.dataset.r,10)); });
+    });
+    document._rateFn = doRate;
+    document._nextFn = null;
+  }
+
+  function renderSummary(){
+    var s = session || {queue:[], ratings:{}, newCount:0};
+    var unique = {};
+    s.queue.forEach(function(it){ unique[it.id] = 1; });
+    var appearances = s.queue.length;
+    store.lastSessionDate = localDate();
+    store.sessions.push({at: localDate(), n: appearances, words: Object.keys(unique).length, again: s.ratings[1]||0, newN: s.newCount||0});
+    if(store.sessions.length > 300) store.sessions = store.sessions.slice(-300);
+    store.session = null;
+    session = null;
+    save();
+    var now = Date.now();
+    var dueTomorrow = dueCards(now + DAY).length;
+    var newTomorrow = Math.min(store.settings.newPerDay, newWords().length);
+    document.getElementById('main').innerHTML =
+      '<div class="card" style="text-align:center;padding:36px 20px">'+
+      '<div style="font-size:44px">✅</div>'+
+      '<h2 style="margin:10px 0 6px">今日训练完成</h2>'+
+      '<div class="hint">每天只做一次；明天再来。训练日内答不出的词已安排下次优先复习。</div>'+
+      '<div class="stat-line" style="justify-content:center;margin-top:16px">'+
+        '<span>卡片 <b>'+appearances+'</b></span><span>词数 <b>'+Object.keys(unique).length+'</b></span>'+
+        '<span>忘记 <b>'+(s.ratings[1]||0)+'</b></span><span>模糊 <b>'+(s.ratings[2]||0)+'</b></span>'+
+        '<span>认识 <b>'+(s.ratings[3]||0)+'</b></span><span>很熟 <b>'+(s.ratings[4]||0)+'</b></span>'+
+      '</div>'+
+      '<div class="next-row" style="justify-content:center"><button class="primary" id="btn-go-stats">看统计</button><button class="ghost" id="btn-go-words">看词库</button></div>'+
+      '</div>'+
+      '<div class="card"><div style="font-weight:700">明天预告</div><div class="hint" style="margin-top:6px">待复习 '+dueTomorrow+' 张 + 新词 '+newTomorrow+' 个 · 约 '+Math.max(3, Math.round((dueTomorrow+newTomorrow)*0.5))+' 分钟</div></div>';
+    document.getElementById('btn-go-stats').addEventListener('click', function(){ go('stats'); });
+    document.getElementById('btn-go-words').addEventListener('click', function(){ go('words'); });
+  }
+
+  function renderDone(){
+    var last = (store.sessions||[]).slice(-1)[0];
+    var now = Date.now();
+    var dueTomorrow = dueCards(now + DAY).length;
+    document.getElementById('main').innerHTML =
+      '<div class="card" style="text-align:center;padding:40px 20px">'+
+      '<div style="font-size:44px">🎉</div>'+
+      '<h2 style="margin:10px 0 6px">今日已完成</h2>'+
+      '<div class="hint">每天只做一次训练，明天再来。<br>答不出的词会在下次优先出现。</div>'+
+      (last ? '<div class="stat-line" style="justify-content:center;margin-top:14px"><span>'+esc(last.at)+'</span><span>'+last.n+' 张</span><span>'+last.words+' 词</span><span>忘记 '+last.again+'</span></div>' : '')+
+      '<div class="next-row" style="justify-content:center"><button class="primary" id="btn-done-stats">看统计</button><button class="ghost" id="btn-done-words">看词库</button></div>'+
+      '</div>'+
+      '<div class="card"><div style="font-weight:700">明天预告</div><div class="hint" style="margin-top:6px">待复习 '+dueTomorrow+' 张 + 新词 '+Math.min(store.settings.newPerDay, newWords().length)+' 个</div></div>';
+    document.getElementById('btn-done-stats').addEventListener('click', function(){ go('stats'); });
+    document.getElementById('btn-done-words').addEventListener('click', function(){ go('words'); });
+  }
+
+  /* ---------- 词库 ---------- */
+  function allWords(){
+    var list = (DATA.words||[]).map(function(w){ return Object.assign({}, w); });
+    (store.custom||[]).forEach(function(w){ list.push(Object.assign({custom:true}, w)); });
+    return list;
+  }
+  function wordMap(){ var m={}; allWords().forEach(function(w){ m[w.id]=w; }); return m; }
+  function cardOf(id){ return store.cards[id] || null; }
+  function newWords(){
+    var wm = wordMap();
+    return allWords().filter(function(w){ return !store.cards[w.id] && !w.custom; });
+  }
+
+  /* ---------- 调度器（FSRS 思想简化） ---------- */
+  function retrievability(card, now){
+    if(!card || !card.s || !card.last) return 0;
+    var elapsedDays = (now - card.last) / DAY;
+    if(elapsedDays <= 0) return 1;
+    return Math.exp(Math.log(R_TARGET) * elapsedDays / card.s);
+  }
+  function schedule(card, rating, now){
+    var c = card ? Object.assign({}, card) : {s:0,d:5,due:now,last:0,reps:0,lapses:0,state:'new'};
+    if(rating === 1){
+      c.lapses++;
+      c.s = c.reps === 0 ? S0[1] : Math.max(0.3, c.s * 0.25);
+      c.d = Math.min(10, (c.d || 5) + 0.8);
+      c.state = 'learning';
+    }else{
+      c.s = c.reps === 0 ? S0[rating] : c.s * (1 + GROWTH[rating]);
+      c.d = Math.max(1, (c.d || 5) - (rating===2?0.1:(rating===3?0.25:0.4)));
+      c.state = c.s >= 21 ? 'mature' : 'review';
+    }
+    c.reps++; c.last = now; c.due = now + c.s * DAY;
+    return c;
+  }
+  function dueCards(now){
+    return Object.keys(store.cards)
+      .filter(function(id){ return store.cards[id].due <= now && wordMap()[id]; })
+      .sort(function(a,b){ return store.cards[a].due - store.cards[b].due; });
+  }
+  function fmtIn(ms){
+    if(ms < 0) return '现在';
+    var m = ms/MIN;
+    if(m < 60) return Math.max(1, Math.round(m)) + ' 分钟';
+    var d = ms/DAY;
+    if(d < 30) return (d < 1 ? Math.round(m/60)+' 小时' : Math.round(d)+' 天');
+    return Math.round(d/30) + ' 个月';
+  }
+
+  /* ---------- 训练 ---------- */
+  var session = null;
+  var revealed = false;
+
+  function localDate(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function buildSession(){
+    var now = Date.now();
+    var due = dueCards(now);
+    var newQ = newWords().sort(function(a,b){
+      if(a.tier !== b.tier) return a.tier === 'A' ? -1 : 1;
+      return a.date < b.date ? 1 : -1;
+    }).slice(0, store.settings.newPerDay);
+    var ids = due.concat(newQ.map(function(w){ return w.id; }));
+    return {
+      date: localDate(),
+      queue: ids.map(function(id){ return {id:id, turns:1}; }),
+      idx: 0,
+      ratings: {1:0,2:0,3:0,4:0},
+      newCount: newQ.length,
+      startedAt: now
+    };
+  }
+  function ensureSession(){
+    if(!session){
+      if(store.session && store.session.date === localDate()) session = store.session;
+      else session = buildSession();
+    }
+    return session;
+  }
+  function saveSession(){ store.session = session; save(); }
+
+  function renderTrain(){
+    var doneToday = store.lastSessionDate === localDate();
+    if(doneToday && !(store.session && store.session.date === localDate())){ renderDone(); return; }
+    var s = ensureSession();
+    if(!s || s.queue.length === 0){ renderDone(); return; }
+    if(s.idx >= s.queue.length){ renderSummary(); return; }
+    var total = s.queue.length, done = s.idx;
+    var item = s.queue[s.idx];
+    var wm = wordMap();
+    var w = wm[item.id];
+    if(!w){ s.idx++; saveSession(); return renderTrain(); }
+    var c = cardOf(item.id);
+    var now = Date.now();
+    var main = document.getElementById('main');
+    var pct = total ? Math.round(done*100/total) : 0;
+    main.innerHTML =
+      '<div class="stat-line"><span>今日第 <b>'+(done+1)+'</b> / '+total+' 张</span>'+
+      '<span>本次词数：<b>'+Object.keys(s.queue.reduce(function(m,it){ m[it.id]=1; return m; },{})).length+'</b></span>'+
+      (c ? '<span>预计保持率：<b>'+Math.round(retrievability(c, now)*100)+'%</b></span>' : '<span class="badge '+esc(w.tier||'B')+'">新词 · '+esc(w.tier||'B')+' 类</span>')+
+      (item.turns>1 ? '<span class="badge">第 '+item.turns+' 次出现</span>' : '')+
+      '</div>'+
+      '<div class="progress"><i style="width:'+pct+'%"></i></div>'+
+      '<div class="card"><div class="word-card">'+
+        '<div class="badge '+esc(w.tier||'B')+'">'+(item.turns>1?'课内重考':'新词/复习')+' · '+esc(w.tier||'B')+' 类'+(w.custom?' · 手动添加':'')+'</div>'+
+        '<div class="word">'+esc(w.word)+'</div>'+
+        '<div class="hint">先判断认识程度再评分；答不出的词本次会再出现</div>'+
+        '<div class="ratings">'+
+          '<button class="r1" data-r="1">忘记<small>1 · 本次稍后再考</small></button>'+
+          '<button class="r2" data-r="2">模糊<small>2 · 本次可能再考</small></button>'+
+          '<button class="r3" data-r="3">认识<small>3 · 这个词过关</small></button>'+
+          '<button class="r4" data-r="4">很熟<small>4 · 秒懂，能造句</small></button>'+
+        '</div>'+
+        '<div class="reveal" id="reveal"></div>'+
+      '</div></div>';
+    var revealEl = document.getElementById('reveal');
+    var advanced = false;
+    function doRate(rating){
+      if(advanced) return; advanced = true;
+      var card = schedule(cardOf(item.id), rating, Date.now());
+      store.cards[item.id] = card;
+      s.ratings[rating] = (s.ratings[rating]||0) + 1;
+      var reinsert = false, gap = 0;
+      if(rating <= 2 && item.turns < 3){
+        reinsert = true;
+        gap = rating === 1 ? 2 : 4;
+      }
+      revealEl.className = 'reveal show';
+      revealEl.innerHTML = '<div><b>'+esc(w.word)+'</b> — '+esc(w.def||'')+'</div>'+
+        (w.coll?'<div style="font-size:13.5px;margin-top:6px">搭配 / 例句：'+esc(w.coll)+'</div>':'')+
+        '<div class="meta">来源：'+esc(w.date||'')+(w.tier?' · '+esc(w.tier)+' 类':'')+
+          ' ｜ 下次：'+fmtIn(card.due-Date.now())+' 后'+
+          (reinsert?' ｜ <b>本次还会再考一次</b>':'')+'</div>'+
+        '<div class="next-row"><button class="primary" id="btn-next">下一个 →</button><span class="hint">空格</span></div>';
+      save();
+      function next(){
+        s.idx++;
+        if(reinsert){
+          var pos = Math.min(s.queue.length, s.idx + gap);
+          s.queue.splice(pos, 0, {id:item.id, turns:item.turns+1});
+        }
+        saveSession();
+        renderTrain();
+      }
+      var nb = document.getElementById('btn-next');
+      if(nb) nb.addEventListener('click', next);
+      document._nextFn = next;
+    }
+    main.querySelectorAll('.ratings button').forEach(function(b){
+      b.addEventListener('click', function(){ doRate(parseInt(b.dataset.r,10)); });
+    });
+    document._rateFn = doRate;
+    document._nextFn = null;
+  }
+
+  /* ---------- 词库 ---------- */
+  var listFilter = {q:'', state:'all'};
+  function renderWords(){
+    var main = document.getElementById('main');
+    var wm = wordMap();
+    var now = Date.now();
+    var rows = allWords().filter(function(w){
+      if(listFilter.q && (w.word+' '+(w.def||'')).toLowerCase().indexOf(listFilter.q.toLowerCase())<0) return false;
+      var c = store.cards[w.id];
+      var st = !c ? 'new' : (c.due <= now ? 'due' : 'scheduled');
+      if(listFilter.state==='new' && st!=='new') return false;
+      if(listFilter.state==='due' && st!=='due') return false;
+      if(listFilter.state==='custom' && !w.custom) return false;
+      return true;
+    }).sort(function(a,b){
+      var ca=store.cards[a.id], cb=store.cards[b.id];
+      if(!ca && cb) return -1; if(ca && !cb) return 1;
+      if(ca && cb) return ca.due - cb.due;
+      return a.word.toLowerCase() < b.word.toLowerCase() ? -1 : 1;
+    });
+    var html = '<div class="card"><div style="font-size:15px;font-weight:700">词库（'+allWords().length+' 词）</div>'+
+      '<div class="filters">'+
+        '<input id="f-q" placeholder="搜索单词/释义" value="'+esc(listFilter.q)+'">'+
+        '<select id="f-st">'+
+          '<option value="all">全部</option><option value="due">待复习</option><option value="new">未学</option><option value="custom">手动添加</option>'+
+        '</select>'+
+        '<span class="hint">数据更新：'+esc(DATA.builtAt||'')+'</span>'+
+      '</div>'+
+      '<div class="addform">'+
+        '<input id="add-word" placeholder="新单词（必填）">'+
+        '<input id="add-def" placeholder="释义（可选，之后可补）">'+
+        '<input id="add-coll" placeholder="搭配/例句（可选）">'+
+        '<button class="primary" id="btn-add">添加</button>'+
+      '</div>'+
+      '<div class="wlist">';
+    rows.slice(0, 400).forEach(function(w){
+      var c = store.cards[w.id];
+      var st = !c ? '未学' : (c.due <= now ? '待复习（'+fmtIn(c.due-now)+'）' : fmtIn(c.due-now)+'后');
+      html += '<div class="wrow"><span class="w">'+esc(w.word)+'</span>'+
+        '<span class="d">'+esc(w.def||'（无释义）')+'<br><span class="hint">'+esc(w.coll||'')+'</span></span>'+
+        '<span class="st">'+st+(w.tier==='A'?' · A类':'')+(w.custom?' · 手动':'')+'</span>'+
+        (w.custom ? '<button class="del" data-del="'+esc(w.id)+'">删除</button>' : '')+
+        (c ? '<button class="del" data-reset="'+esc(w.id)+'">重置进度</button>' : '')+
+      '</div>';
+    });
+    html += '</div></div>';
+    main.innerHTML = html;
+    var fq = document.getElementById('f-q'), fs = document.getElementById('f-st');
+    fs.value = listFilter.state;
+    fq.addEventListener('input', function(){ listFilter.q = fq.value; var pos = fq.selectionStart; renderWords(); var el=document.getElementById('f-q'); el.focus(); el.setSelectionRange(pos,pos); });
+    fs.addEventListener('change', function(){ listFilter.state = fs.value; renderWords(); });
+    document.getElementById('btn-add').addEventListener('click', function(){
+      var word = document.getElementById('add-word').value.trim();
+      if(!word) return toast('单词不能为空');
+      var id = 'c:' + word.toLowerCase();
+      if(wordMap()[id]) return toast('这个单词已经存在');
+      store.custom.push({id:id, word:word, def:document.getElementById('add-def').value.trim()||'（待补）', coll:document.getElementById('add-coll').value.trim(), level:'custom', tier:'C', date:new Date().toISOString().slice(0,10), custom:true});
+      save(); toast('已添加：'+word); listFilter.q=''; listFilter.state='custom'; renderWords();
+    });
+    main.querySelectorAll('button[data-del]').forEach(function(b){
+      b.addEventListener('click', function(){
+        var id = b.dataset.del;
+        if(!confirm('删除这个手动添加的单词？')) return;
+        store.custom = store.custom.filter(function(w){ return w.id !== id; });
+        delete store.cards[id]; save(); renderWords();
+      });
+    });
+    main.querySelectorAll('button[data-reset]').forEach(function(b){
+      b.addEventListener('click', function(){
+        if(!confirm('重置这个词的记忆进度？')) return;
+        delete store.cards[b.dataset.reset]; save(); renderWords();
+      });
+    });
+  }
+
+  /* ---------- 统计 ---------- */
+  function renderStats(){
+    var now = Date.now();
+    var cards = store.cards;
+    var ids = Object.keys(cards);
+    var due = ids.filter(function(id){ return cards[id].due <= now; }).length;
+    var learning = ids.filter(function(id){ return cards[id].state==='learning'; }).length;
+    var review = ids.filter(function(id){ return cards[id].state==='review'; }).length;
+    var mature = ids.filter(function(id){ return cards[id].state==='mature'; }).length;
+    var totalReviews = ids.reduce(function(n,id){ return n + (cards[id].reps||0); }, 0);
+    var totalLapses = ids.reduce(function(n,id){ return n + (cards[id].lapses||0); }, 0);
+    var retr = totalReviews ? Math.round(100*(1-totalLapses/totalReviews)) : 0;
+    // streak
+    var days = {};
+    (store.sessions||[]).forEach(function(s){ days[s.at] = true; });
+    var streak = 0, d = new Date();
+    for(;;){
+      var key = d.toISOString().slice(0,10);
+      if(days[key]){ streak++; d.setDate(d.getDate()-1); } else break;
+    }
+    // forecast
+    var forecast = [], maxF = 1;
+    for(var i=0;i<7;i++){
+      var start = new Date(); start.setHours(0,0,0,0); start.setDate(start.getDate()+i);
+      var end = start.getTime()+DAY;
+      var n = ids.filter(function(id){ var due=cards[id].due; return due>=start.getTime() && due<end; }).length;
+      if(i===0) n += due; // 今日已到期
+      forecast.push({label: i===0?'今天':(i===1?'明天':(i+'天')), n:n});
+      if(n>maxF) maxF=n;
+    }
+    var recentHtml = ((store.sessions||[]).slice(-7).reverse().map(function(x){
+      return '<div class="stat-line" style="margin:6px 0 0"><span>'+esc(x.at)+'</span><span>'+x.n+' 张</span><span>忘记 '+x.again+'</span></div>';
+    }).join('') || '<div class="hint">还没有训练记录</div>');
+    var html = '<div class="kv">'+
+      '<div><b>'+allWords().length+'</b><span>词库总数</span></div>'+
+      '<div><b>'+due+'</b><span>今日待复习</span></div>'+
+      '<div><b>'+newWords().length+'</b><span>未学新词</span></div>'+
+      '<div><b>'+learning+'</b><span>学习中</span></div>'+
+      '<div><b>'+review+'</b><span>复习中</span></div>'+
+      '<div><b>'+mature+'</b><span>已稳固（≥21天）</span></div>'+
+      '<div><b>'+retr+'%</b><span>累计记忆率（1-遗忘率）</span></div>'+
+      '<div><b>'+streak+'</b><span>连续训练天数</span></div></div>'+
+      '<div class="card"><div style="font-weight:700">未来 7 天到期预测</div><div class="bars">'+forecast.map(function(f){
+        return '<div class="bar"><b>'+f.n+'</b><i style="height:'+Math.round(f.n/maxF*100)+'%"></i><span>'+f.label+'</span></div>';
+      }).join('')+'</div><div class="hint" style="margin-top:8px">今日数字含已到期+新词额度；复习间隔按 90% 目标保持率反推。</div></div>'+
+      '<div class="card"><div style="font-weight:700">最近训练</div>'+recentHtml+'</div>'+
+      '<div class="card"><div style="font-weight:700">设置</div>'+
+        '<div class="stat-line" style="margin-top:10px"><span>每天新词：<input id="set-new" type="number" min="0" max="50" value="'+store.settings.newPerDay+'" style="width:64px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid #e7e3da;border-radius:7px"></span>'+
+        '<button class="ghost" id="btn-save-set">保存</button></div>'+
+        '<div class="backup"><button class="ghost" id="btn-export">导出备份</button><button class="ghost" id="btn-import">导入备份</button><input type="file" id="file-import" accept="application/json,.json" hidden></div>'+
+        '<div class="hint" style="margin-top:8px">备份包含：记忆进度 + 手动添加的词 + 设置。换设备/清缓存前记得导出。</div></div>';
+    document.getElementById('main').innerHTML = '<div class="card" style="padding-bottom:6px"><div style="font-size:15px;font-weight:700;margin-bottom:8px">学习状态</div><div style="font-size:12.5px;color:#6b7280">词库更新：'+esc(DATA.builtAt||'')+' · 数据只存在你的浏览器本地</div></div>'+html;
+    document.getElementById('btn-save-set').addEventListener('click', function(){
+      var v = parseInt(document.getElementById('set-new').value,10);
+      store.settings.newPerDay = isNaN(v) ? 12 : Math.max(0, Math.min(50, v));
+      save(); toast('已保存：每天 '+store.settings.newPerDay+' 个新词');
+    });
+    document.getElementById('btn-export').addEventListener('click', function(){
+      var blob = new Blob([JSON.stringify(store,null,1)],{type:'application/json;charset=utf-8'});
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = '记忆训练备份_'+new Date().toISOString().slice(0,10)+'.json';
+      document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); },800);
+    });
+    document.getElementById('btn-import').addEventListener('click', function(){ document.getElementById('file-import').click(); });
+    document.getElementById('file-import').addEventListener('change', function(e){
+      var f = e.target.files[0]; if(!f) return;
+      var r = new FileReader();
+      r.onload = function(){
+        try{ store = normalize(JSON.parse(r.result)); save(); toast('备份已导入'); renderStats(); }
+        catch(err){ toast('文件格式不对'); }
+      };
+      r.readAsText(f);
+    });
+  }
+
+  /* ---------- 关于 ---------- */
+  function renderAbout(){
+    document.getElementById('main').innerHTML = '<div class="card about">'+
+      '<h3>为什么是「自评」而不是选择题</h3>'+
+      '<p>选择题会给你「提示」——看到四个选项时才想起意思，这叫再认（recognition）；而真实阅读需要的是提取（recall）。所以这里只给单词，让你自己判断能不能说出意思、能不能造句，再由你给 4 档评分。这是主动检索（retrieval practice），研究表明比重复阅读更有利于长期记忆（Karpicke &amp; Blunt, <i>Science</i>, 2011）。</p>'+
+      '<h3>调度算法（FSRS 思想简化版）</h3>'+
+      '<p>参考 FSRS（Free Spaced Repetition Scheduler，Anki 1.0 时代 SM-2 的现代替代）：每张卡有<b>稳定度 S</b>（记忆能撑多少天）和<b>难度 D</b>。间隔按目标保持率反推：<code>R(t,S)=exp(ln0.9·t/S)</code>，即复习间隔≈S 天时，预测保持率 90%。</p>'+
+      '<ul>'+
+        '<li><b>忘记</b>：S 缩到 25%（首次则 10 分钟后再来），D 上升</li>'+
+        '<li><b>模糊</b>：S 增 15%，D 略升</li>'+
+        '<li><b>认识</b>：S 增 75%，D 下降</li>'+
+        '<li><b>很熟</b>：S 增 140%，D 明显下降</li>'+
+      '</ul>'+
+      '<p>首次评分后的初始稳定度：忘记 10 分钟 / 模糊 1.2 天 / 认识 2.5 天 / 很熟 6 天。90% 是记忆效果与复习负担的平衡点（FSRS 与 Anki 文档默认值）。</p>'+
+      '<p><b>课内重考（learning steps）</b>：每次训练只做一轮，但同一张卡可能在本次内多次出现——评「忘记」会隔 2 张卡再考，「模糊」隔 4 张卡再考，最多 3 次；评「认识/很熟」本次过关。出现次数由你的答题表现动态决定，这是 Anki 类软件的标准做法，用短间隔重复巩固刚学的词。</p>'+
+      '<p><b>每天只训练一次</b>：完成当日训练后，当天不能再开新的一轮；忘记的词会在下一次训练优先出现。</p>'+
+      '<h3>其它设计</h3>'+
+      '<ul>'+
+        '<li><b>新词额度</b>：每天默认 12 个，A 类核心词优先；可在统计页调整。</li>'+
+        '<li><b>难词</b>：反复「忘记」的词 lapses 会增加，间隔增长变慢——系统会自然给你更多次接触。</li>'+
+        '<li><b>词库来源</b>：只来自每日精读产生的生词（单词本.md 自动同步）+ 你手动添加的词。</li>'+
+        '<li><b>隐私</b>：全部数据存在浏览器 localStorage，不上传服务器；换设备用导出/导入备份。</li>'+
+      '</ul>'+
+      '<h3>参考</h3>'+
+      '<ul style="font-size:13px">'+
+        '<li>FSRS 算法：open-spaced-repetition/awesome-fsrs wiki（The Algorithm）</li>'+
+        '<li>FSRS vs SM-2：目标保持率 90% 的默认设置</li>'+
+        '<li>Karpicke, J. D., &amp; Blunt, J. R. (2011). Retrieval practice produces more learning than elaborative studying. <i>Science</i>, 331(6018), 772–775.</li>'+
+        '<li>Anki 四档评分（Again / Hard / Good / Easy）与 FSRS 调度实践</li>'+
+      '</ul></div>';
+  }
+
+  /* ---------- 视图切换 ---------- */
+  var curView = 'train';
+  function go(view){
+    curView = view;
+    ['train','words','stats','about'].forEach(function(v){
+      var b = document.getElementById('nav-'+v);
+      if(b) b.classList.toggle('active', v===view);
+    });
+    if(view==='train') renderTrain();
+    else if(view==='words') renderWords();
+    else if(view==='stats') renderStats();
+    else renderAbout();
+  }
+  document.querySelectorAll('nav button').forEach(function(b){
+    b.addEventListener('click', function(){ go(b.dataset.view); });
+  });
+
+  /* ---------- 键盘 ---------- */
+  document.addEventListener('keydown', function(e){
+    if(curView !== 'train') return;
+    var tag = (e.target.tagName||'').toLowerCase();
+    if(tag === 'input' || tag === 'select' || tag === 'textarea') return;
+    if(e.key >= '1' && e.key <= '4'){ if(document._rateFn) document._rateFn(parseInt(e.key,10)); }
+    else if(e.key === ' '){ e.preventDefault(); if(document._nextFn) document._nextFn(); }
+  });
+
+  /* ---------- 启动 ---------- */
+  go('train');
+})();
+</script>
+</body>
+</html>
