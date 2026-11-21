@@ -751,11 +751,16 @@ window.__DATA__ = {"articles": [{"date": "2026-11-12", "title": "脑子为什么
         '<div class="tdesc">'+esc(t.desc||'')+'</div>'+
         '<div class="tbar">'+
           (res ? '<span class="tres">上次成绩 <b>'+res.score+'/'+res.total+'</b> · '+esc(res.at||'')+'</span>' : '<span class="tres">未做过</span>')+
+          (res ? '<button data-result="'+esc(t.id)+'">查看上次结果</button>' : '')+
           '<button class="primary" data-start="'+esc(t.id)+'">'+(res?'重新测试':'开始测试')+'</button>'+
         '</div></div>';
     });
     wrap.innerHTML = h;
     mainEl.appendChild(wrap);
+
+    wrap.querySelectorAll('button[data-result]').forEach(function(b){
+      b.addEventListener('click', function(){ var tt = testById(b.dataset.result); if(tt) renderTestResult(tt); });
+    });
     wrap.querySelectorAll('button[data-start]').forEach(function(b){
       b.addEventListener('click', function(){
         state.testDraft = {id: b.dataset.start, sel:{}, startedAt: Date.now(), submitted:false};
